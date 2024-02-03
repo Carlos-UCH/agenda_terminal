@@ -3,7 +3,7 @@
 <h3>Installations</h3>
 
 ```
-sudo apt install python3-pip
+sudo apt-get install python3-pip
 
 sudo apt-get install sqlite3
 
