@@ -24,3 +24,10 @@ python3 agenda.py
         E/e -> Create event
     </li>
 </div>
+
+<h3>Screenshots</h3>
+
+![ver/adicionar/apagar evento](/assets/image1.png)
+
+![Eventos](/assets/image2.png)
+
