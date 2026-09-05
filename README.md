@@ -2,9 +2,12 @@
 
 <h3>Installations</h3>
 
-```
+
 **Ubuntu:** `sudo apt install python3-pip sqlite3`
+
 **Fedora:** `sudo dnf install python3-pip sqlite`
+
+```
 pip install -r requirements.txt
 ```
 
