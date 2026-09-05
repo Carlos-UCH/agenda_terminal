@@ -7,7 +7,7 @@ sudo apt-get install python3-pip
 
 sudo apt-get install sqlite3
 
-pip install prettytable
+pip install -r requirements.txt
 ```
 
 <h3>Usage - Terminal</h3>
