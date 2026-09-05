@@ -3,7 +3,6 @@ import readchar
 from datetime import date, datetime
 from prettytable import PrettyTable
 
-
 def condicoes_data():
     while True: 
         print("Data (dd/mm/yyyy): ", end = '', flush=True)
@@ -34,7 +33,7 @@ def condicoes_data():
         except ValueError:
                 print("Data inválida")  
 tabela = PrettyTable()
-tabela.field_names = ["Evento", "Data", "Tempo restante"]
+tabela.field_names = ["id", "Evento", "Data", "Tempo restante"]
 
 data_atual = date.today()
 
@@ -50,7 +49,7 @@ cursor.execute('''
         )''')
 
 conexao.commit() 
-leitura_edicao = input("Ver/adicionar data [Q/E]: ").strip().lower()
+leitura_edicao = input("Ver/adicionar/Apagar data [Q/E/D]: ").strip().lower()
 
 if leitura_edicao == "e":
     evento = input("Evento: ")
@@ -62,9 +61,12 @@ if leitura_edicao == "e":
     conexao.commit()
 
 elif leitura_edicao == "q":
-    cursor.execute('''SELECT * FROM Agenda ''')
+    cursor.execute('''
+                   SELECT * FROM Agenda 
+                   ''')
 
     for itens in cursor.fetchall():
+        id_evento = itens[0]
         evento = itens[2]
         data_evento_str = itens[1] 
         
@@ -83,6 +85,20 @@ elif leitura_edicao == "q":
         else:
             tempo_resto_format = (f"{cor}"+f"{tempo_rest} dia{'s' if tempo_rest > 1 else''}"+"\033[m") 
         
-        tabela.add_row([evento, data_evento_str, tempo_resto_format])
-        tabela.add_row(["", "",  ""])
+        tabela.add_row([id_evento, evento, data_evento_str, tempo_resto_format])
+        tabela.add_row(["","", "", ""])
     print(tabela)
+
+elif leitura_edicao == "d":
+    try:
+        id_apagar = int(input("Digte o id do evento: "))
+        cursor.execute('''
+                       DELETE FROM Agenda WHERE id = ?
+                       ''', ([id_apagar]))
+        conexao.commit() 
+        if cursor.rowcount > 0: 
+            print(f"Evento {id_apagar} apagado")
+        else:
+            print("id não encontrado")
+    except ValueError:
+        print("id inválido.")
