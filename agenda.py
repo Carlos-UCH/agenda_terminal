@@ -1,17 +1,38 @@
 import sqlite3
+import readchar 
 from datetime import date, datetime
 from prettytable import PrettyTable
 
 
 def condicoes_data():
     while True: 
-        data_evento = input("Data (dd/mm/yyyy): ") 
-        try: 
-            datetime.strptime(data_evento, "%d/%m/%Y")
-            return data_evento
+        print("Data (dd/mm/yyyy): ", end = '', flush=True)
+        data_entrada = "" 
+        while len(data_entrada) < 10: 
+            tecla = readchar.readchar(); 
+            if tecla in('\x08', '\x7f'):
+                if len(data_entrada) > 0:
+                    if data_entrada.endswith('/'):
+                        data_entrada= data_entrada[:-2]
+                        print('\b\b \b\b', end = ' ', flush = True)
+                    else: 
+                        data_entrada = data_entrada[:-1]
+                        print('\b \b', end = '', flush = True)
+                    continue 
+            if not tecla.isdigit(): 
+                continue 
+            data_entrada+=tecla 
+            print(tecla, end = '', flush=True)
+                
+            if len(data_entrada) == 2 or len(data_entrada)==5:
+                data_entrada+='/'
+                print('/', end = '', flush = True)
+        print() 
+        try:
+            datetime.strptime(data_entrada, "%d/%m/%Y")
+            return data_entrada 
         except ValueError:
-            print("Data inválida")  
-         
+                print("Data inválida")  
 tabela = PrettyTable()
 tabela.field_names = ["Evento", "Data", "Tempo restante"]
 
